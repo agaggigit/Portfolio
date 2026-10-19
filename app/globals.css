@@ -5,7 +5,23 @@
 
   --color-black: #010400;
   --color-blue: #3C6997;
+  --color-yellow: #FFC847;
+  --color-grey: #A5A5A5;
 
   --font-heading: var(--font-syne), sans-serif;
+  --font-heading: var(--font-syne), sans-serif;
   --font-paragraph: var(--font-dm_sans), sans-serif;
+}
+
+@utility text-stroke-* {
+  -webkit-text-stroke-width: calc(--value(integer) * 1px);
+  stroke-width: calc(--value(integer) * 2px);
+
+  -webkit-text-stroke-color: --value(--color-*);
+  -webkit-text-stroke-color: --value([*]);
+  stroke: --value(--color-*);
+  stroke: --value([*]);
+
+  paint-order: stroke fill;
+  stroke-linejoin: round;
 }
