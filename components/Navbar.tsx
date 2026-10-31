@@ -47,11 +47,11 @@ export default function Navbar() {
     return (
         <>
             <header
-                className={`fixed top-[3.96vw] left-1/2 z-40 hidden -translate-x-1/2 transition-all duration-300 md:block ${
+                className={`fixed top-[calc(28*var(--u))] left-1/2 z-40 hidden -translate-x-1/2 transition-all duration-300 md:block ${
                     atHero ? "opacity-100" : "pointer-events-none -translate-y-4 opacity-0"
                 }`}
             >
-                <nav aria-label="Main" className="flex h-[5.07vw] w-[59.65vw] items-center justify-around rounded-full bg-black px-[2vw] font-paragraph text-[2.78vw] text-[#FFFAFF]">
+                <nav aria-label="Main" className="flex h-[max(2.75rem,calc(58*var(--u)))] w-[max(26rem,calc(640*var(--u)))] items-center justify-around rounded-full bg-black font-paragraph text-[max(1rem,calc(26*var(--u)))] text-[#FFFAFF]">
                     {links.map((l) => (
                         <a key={l.href} href={l.href} className="transition-colors hover:text-yellow">
                             {l.label}
@@ -66,7 +66,7 @@ export default function Navbar() {
                 aria-label="Open menu"
                 aria-expanded={open}
                 aria-controls="site-menu"
-                className={`fixed top-4 right-4 z-40 size-14 rounded-full shadow-[0_0_0_2px_rgb(255_250_255/0.25)] transition-all duration-300 hover:scale-105 md:top-[2.4vw] md:right-[2.4vw] md:size-[clamp(3.5rem,10.35vw,9.3rem)] ${
+                className={`fixed top-4 right-4 z-40 size-14 rounded-full shadow-[0_0_0_2px_rgb(255_250_255/0.25)] transition-all duration-300 hover:scale-105 md:top-[calc(28*var(--u))] md:right-[calc(28*var(--u))] md:size-[max(3.5rem,calc(104*var(--u)))] ${
                     atHero ? "md:pointer-events-none md:scale-75 md:opacity-0" : ""
                 }`}
             >

@@ -14,7 +14,7 @@ function Placeholder({ name }: { name: string }) {
             aria-hidden
             className="absolute inset-0 bg-[linear-gradient(#ffffff0d_1px,transparent_1px),linear-gradient(90deg,#ffffff0d_1px,transparent_1px)] bg-[size:2rem_2rem] p-[6%]"
         >
-            <p className="font-heading text-[clamp(2rem,6vw,5.5rem)] leading-none font-extrabold text-white/10 uppercase">{name}</p>
+            <p className="font-heading text-[2rem] leading-none font-extrabold text-white/10 uppercase md:text-[calc(88*var(--u))]">{name}</p>
         </div>
     );
 }
@@ -39,7 +39,7 @@ export default function ProjectCarousel({ projects }: { projects: Project[] }) {
                 <div
                     key={project.name}
                     aria-live="polite"
-                    className="relative aspect-[16/10] w-full origin-center [transform:rotateX(-10deg)] overflow-hidden rounded-[clamp(1rem,3vw,2.75rem)] bg-[#0d1117] shadow-2xl motion-safe:animate-[fade-in_400ms_ease-out] md:aspect-auto md:h-full"
+                    className="relative aspect-[16/10] w-full origin-center [transform:rotateX(-10deg)] overflow-hidden rounded-2xl bg-[#0d1117] md:rounded-[calc(44*var(--u))] shadow-2xl motion-safe:animate-[fade-in_400ms_ease-out] md:aspect-auto md:h-full"
                 >
                     {project.image ? (
                         <Image
@@ -56,37 +56,37 @@ export default function ProjectCarousel({ projects }: { projects: Project[] }) {
             </div>
 
             <div className="mt-5 grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1 text-white md:mt-[2.2%]">
-                <h3 className="font-heading text-[clamp(1.5rem,3.33vw,3rem)] leading-tight font-bold uppercase">{project.name}</h3>
-                <ul className="flex gap-[0.6em] text-[clamp(0.5rem,0.63vw,0.6rem)]" aria-label="Tech stack">
+                <h3 className="font-heading text-2xl leading-tight font-bold uppercase md:text-[calc(48*var(--u))]">{project.name}</h3>
+                <ul className="flex gap-[0.6em] text-[0.55rem] md:text-[max(0.55rem,calc(11*var(--u)))]" aria-label="Tech stack">
                     {project.tech.map((t, i) => (
                         <li
                             key={t}
                             title={t}
-                            className={`grid h-[clamp(2.25rem,3.48vw,3.2rem)] min-w-[clamp(2.25rem,3.48vw,3.2rem)] place-items-center rounded-[clamp(0.9rem,1.43vw,1.3rem)] px-[0.7em] text-center font-heading leading-tight font-bold text-black ${techColors[i % techColors.length]}`}
+                            className={`grid h-9 min-w-9 place-items-center rounded-[0.9rem] px-[0.7em] text-center font-heading leading-tight font-bold text-black md:h-[max(2.25rem,calc(50*var(--u)))] md:min-w-[max(2.25rem,calc(50*var(--u)))] md:rounded-[calc(20*var(--u))] ${techColors[i % techColors.length]}`}
                         >
                             {t}
                         </li>
                     ))}
                 </ul>
-                <p className="font-paragraph text-[clamp(0.875rem,1.53vw,1.4rem)]">{project.role}</p>
+                <p className="font-paragraph text-sm md:text-[calc(22*var(--u))]">{project.role}</p>
                 {project.href ? (
                     <a
                         href={project.href}
                         target="_blank"
                         rel="noreferrer"
-                        className="group justify-self-end font-paragraph text-[clamp(0.875rem,1.53vw,1.4rem)]"
+                        className="group justify-self-end font-paragraph text-sm md:text-[calc(22*var(--u))]"
                     >
                         Learn more <span className="inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
                     </a>
                 ) : (
                     <span />
                 )}
-                <p className="col-span-2 mt-2 max-w-3xl font-paragraph text-[clamp(0.8rem,1.1vw,1rem)] text-white/85">
+                <p className="col-span-2 mt-2 max-w-3xl font-paragraph text-sm text-white/85 md:mt-[calc(8*var(--u))] md:max-w-[calc(820*var(--u))] md:text-[max(0.8rem,calc(17*var(--u)))]">
                     {project.description}
                 </p>
             </div>
 
-            <div className="mt-4 flex items-center justify-center gap-4 md:absolute md:right-0 md:bottom-[-1.6vw] md:left-0 md:mt-0 md:translate-y-full">
+            <div className="mt-4 flex items-center justify-center gap-4 md:absolute md:right-0 md:bottom-[calc(-24*var(--u))] md:left-0 md:mt-0 md:translate-y-full">
                 <button
                     type="button"
                     onClick={() => goTo(active - 1)}

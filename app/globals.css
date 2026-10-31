@@ -14,6 +14,23 @@
   --font-paragraph: var(--font-dm_sans), sans-serif;
 }
 
+/*
+  --u = 1 "piksel Figma". Frame desain 1440x1024 diskalakan dengan sisi yang lebih sempit
+  (lebar atau tinggi layar), jadi satu section selalu muat di layar apa pun.
+  Contoh: teks 141px di Figma -> text-[calc(141*var(--u))]
+*/
+:root {
+  --u: min(calc(100vw / 1440), calc(100svh / 1024));
+}
+
+/* Panggung seukuran frame Figma, di tengah layar. Posisi persen di dalamnya = posisi di Figma. */
+@utility stage {
+  position: relative;
+  width: calc(1440 * var(--u));
+  height: calc(1024 * var(--u));
+  margin-inline: auto;
+}
+
 @utility text-stroke-* {
   -webkit-text-stroke-width: calc(--value(integer) * 1px);
   stroke-width: calc(--value(integer) * 2px);
