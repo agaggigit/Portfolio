@@ -7,8 +7,9 @@
   --color-blue: #3C6997;
   --color-yellow: #FFC847;
   --color-grey: #A5A5A5;
+  --color-red: #973C3E;
+  --color-sand: #D2B97F;
 
-  --font-heading: var(--font-syne), sans-serif;
   --font-heading: var(--font-syne), sans-serif;
   --font-paragraph: var(--font-dm_sans), sans-serif;
 }
@@ -24,4 +25,8 @@
 
   paint-order: stroke fill;
   stroke-linejoin: round;
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
