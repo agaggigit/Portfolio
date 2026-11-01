@@ -30,7 +30,13 @@ export default function Navbar() {
             threshold: 0.4,
         });
         observer.observe(hero);
-        return () => observer.disconnect();
+        // Saat Hero di-pin oleh animasi scroll, ia tetap "terlihat", jadi ScrollAnimations memberi sinyal sendiri
+        const onCovered = (e: Event) => setAtHero(!(e as CustomEvent<boolean>).detail);
+        window.addEventListener("hero:covered", onCovered);
+        return () => {
+            observer.disconnect();
+            window.removeEventListener("hero:covered", onCovered);
+        };
     }, []);
 
     useEffect(() => {

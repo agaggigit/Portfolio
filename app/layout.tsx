@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { syne, inter } from "./fonts";
 import { profile, siteUrl } from "@/data/site";
+import Intro from "@/components/Intro";
+import ScrollAnimations from "@/components/ScrollAnimations";
 import "./globals.css";
 
 const description = `${profile.fullName} (${profile.nickname}) — ${profile.role}. Software engineering, data, and machine learning projects.`;
@@ -36,8 +38,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${syne.variable} ${inter.variable} h-full antialiased motion-safe:scroll-smooth`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Jalan sebelum halaman tampil: tandai kalau intro perlu diputar, supaya Hero tidak sempat "flash" */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(!sessionStorage.getItem("intro-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.intro="play"}catch(e){}`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-white" suppressHydrationWarning>
+        <Intro />
         {children}
+        <ScrollAnimations />
       </body>
     </html>
   );

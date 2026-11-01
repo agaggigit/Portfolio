@@ -43,6 +43,17 @@
   paint-order: stroke fill;
   stroke-linejoin: round;
 }
+/* Intro hanya tampil kalau skrip di <head> menandai html[data-intro="play"] */
+#intro {
+  display: none;
+}
+html[data-intro="play"] #intro {
+  display: flex;
+}
+html[data-intro="play"] body {
+  overflow: hidden;
+}
+
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
