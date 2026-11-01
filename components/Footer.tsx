@@ -7,9 +7,20 @@ import LocalTime from "./LocalTime";
 // Ukuran memakai unit --u (1 piksel Figma), lihat globals.css.
 export default function Footer() {
     return (
-        <footer id="contact" className="relative overflow-hidden bg-black px-4 pt-20 pb-8 text-white md:p-0">
+        <footer id="contact" data-footer className="relative overflow-hidden bg-black px-4 pt-20 pb-8 text-white md:p-0">
+            {/* Lengkungan abu-abu (sambungan dari Experience), frame Figma 128:181: tepi atas footer melengkung
+                ~110 piksel Figma ke bawah di tengah. Saat animasi aktif lengkungan merata ketika footer sampai atas */}
+            <svg
+                aria-hidden
+                data-footer-cap
+                viewBox="0 0 1440 110"
+                preserveAspectRatio="none"
+                className="pointer-events-none absolute inset-x-0 top-0 hidden h-[calc(110*var(--u))] w-full origin-top fill-grey md:block"
+            >
+                <path d="M0,0 H1440 Q720,220 0,0 Z" />
+            </svg>
             <div className="md:stage">
-                <div className="text-center md:pt-[calc(121*var(--u))]">
+                <div data-footer-title className="text-center md:pt-[calc(121*var(--u))]">
                     <h2 className="font-heading text-[2.25rem] leading-[1.2] font-bold md:text-[calc(93*var(--u))]">
                         Let&rsquo;s Work Together
                     </h2>
@@ -19,7 +30,7 @@ export default function Footer() {
                 </div>
 
                 <div className="mt-12 flex flex-col items-center gap-10 md:contents">
-                    <div className="text-center md:absolute md:top-[38.4%] md:left-[calc(50%-3*var(--u))] md:w-[calc(336*var(--u))] md:-translate-x-1/2">
+                    <div data-footer-reveal className="text-center md:absolute md:top-[38.4%] md:left-[calc(50%-3*var(--u))] md:w-[calc(336*var(--u))] md:-translate-x-1/2">
                         <p className="font-paragraph text-lg font-bold md:text-[calc(30*var(--u))]">Open for collaboration</p>
                         <p className="font-paragraph text-sm md:text-[calc(22*var(--u))]">
                             {profile.location}, ID. <LocalTime />
@@ -28,6 +39,7 @@ export default function Footer() {
 
                     <a
                         href={`mailto:${profile.email}`}
+                        data-footer-reveal
                         className="grid size-44 place-items-center rounded-full bg-yellow text-center font-heading text-[2.5rem] leading-[0.96] font-bold text-black transition-transform hover:scale-105 md:absolute md:top-[41.7%] md:left-[64.6%] md:size-[calc(379*var(--u))] md:text-[calc(96*var(--u))]"
                     >
                         <span>
@@ -36,7 +48,7 @@ export default function Footer() {
                     </a>
 
                     {/* Foto dalam bingkai lengkung putih, kepala sengaja keluar dari bingkai */}
-                    <div className="relative h-64 w-52 md:absolute md:top-[31.05%] md:left-[9.03%] md:h-[calc(488*var(--u))] md:w-[calc(408*var(--u))]">
+                    <div data-footer-reveal className="relative h-64 w-52 md:absolute md:top-[31.05%] md:left-[9.03%] md:h-[calc(488*var(--u))] md:w-[calc(408*var(--u))]">
                         <div className="absolute inset-x-0 bottom-0 h-[68.3%] rounded-t-full rounded-b-xl bg-white md:rounded-b-[calc(20*var(--u))]" />
                         <Image
                             src={fotoFooter}
@@ -47,7 +59,7 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <div className="mt-16 flex flex-col-reverse items-center gap-4 font-paragraph text-sm md:absolute md:top-[87.7%] md:right-[9.1%] md:left-[7.36%] md:mt-0 md:flex-row md:justify-between md:text-[max(0.8rem,calc(22*var(--u)))]">
+                <div data-footer-reveal className="mt-16 flex flex-col-reverse items-center gap-4 font-paragraph text-sm md:absolute md:top-[87.7%] md:right-[9.1%] md:left-[7.36%] md:mt-0 md:flex-row md:justify-between md:text-[max(0.8rem,calc(22*var(--u)))]">
                     <p>&copy;{new Date().getFullYear()} {profile.nickname}. All rights reserved.</p>
                     <ul className="flex flex-wrap justify-center gap-x-5 gap-y-2 md:gap-x-[calc(23*var(--u))]">
                         {socials.map((s) => (

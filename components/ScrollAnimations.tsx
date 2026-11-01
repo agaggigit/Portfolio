@@ -171,14 +171,43 @@ export default function ScrollAnimations() {
             }
             tl.addLabel("experience");
 
-            // Experience: timeline digeser ke samping mengikuti scroll
+            // Experience: judul mulai di tengah lalu naik (seperti About). Lalu "ujung" garis kuning bergerak ke kanan:
+            // garis tergambar di belakangnya, titik & kartu muncul saat dilewati, dan timeline ikut digeser ke kiri
+            // begitu ujungnya melewati REVEAL_AT lebar layar.
+            const expTitle = document.querySelector<HTMLElement>("[data-exp-title]");
+            const expCenter = () => (expTitle ? window.innerHeight / 2 - (expTitle.offsetTop + expTitle.offsetHeight / 2) : 0);
+            tl.from(expTitle, { y: expCenter, scale: 1.15, duration: 1 }, "experience");
+
             const scroller = document.querySelector<HTMLElement>("[data-exp-scroller]");
             const track = document.querySelector<HTMLElement>("[data-exp-track]");
-            if (scroller && track) {
+            const items = gsap.utils.toArray<HTMLElement>("[data-exp-item]");
+            const REVEAL_AT = 0.7;
+            const drawLine = { head: 0 }; // 0..1 dari titik pertama sampai ujung timeline
+            const renderLine = () => {
+                if (!scroller || !track || !items.length) return;
+                const start = items[0].offsetLeft - 1; // mulai tepat sebelum titik pertama, jadi belum ada yang tampil
+                const maxShift = Math.max(0, track.scrollWidth - scroller.clientWidth);
+                const revealX = scroller.clientWidth * REVEAL_AT;
+                // Ujung paling jauh = ujung garis terakhir, atau sejauh yang dibutuhkan supaya timeline habis digeser
+                const end = Math.max(items[items.length - 1].offsetLeft + items[items.length - 1].offsetWidth, revealX + maxShift);
+                const head = start + (end - start) * drawLine.head;
+                gsap.set(track, { x: -Math.min(maxShift, Math.max(0, head - revealX)) });
+                items.forEach((item) => {
+                    const line = item.querySelector<HTMLElement>("[data-exp-line]");
+                    const drawn = Math.min(1, Math.max(0, (head - item.offsetLeft) / item.offsetWidth));
+                    if (line) line.style.transform = `scaleX(${drawn})`;
+                    item.toggleAttribute("data-shown", head > item.offsetLeft);
+                });
+            };
+            if (scroller && track && items.length) {
                 gsap.set(scroller, { overflow: "hidden" }); // scrollbar diganti scroll halaman
-                tl.to(track, { x: () => -Math.max(0, track.scrollWidth - scroller.clientWidth), duration: 2, ease: "none" });
+                tl.fromTo(drawLine, { head: 0 }, { head: 1, duration: 1 + items.length * 0.6, ease: "none", onUpdate: renderLine }, "experience+=1.1");
             }
             hold(0.3);
+            // Layar terakhir: drum masih ditahan sementara Footer naik menimpanya (lihat bagian Footer di bawah).
+            // Isi Experience ikut naik & memudar, jadi yang tersisa di atas lengkungan hanya abu-abu polos (seperti Figma)
+            tl.to([expTitle, scroller].filter(Boolean), { y: () => -window.innerHeight * 0.15, opacity: 0, duration: 0.8, ease: "power1.in" });
+            hold(1 / SCROLL_PER_UNIT - 0.8);
 
             const st = ScrollTrigger.create({
                 trigger: drum,
@@ -192,7 +221,21 @@ export default function ScrollAnimations() {
                     layout();
                     render();
                 },
+                onRefresh: renderLine,
             });
+
+            // 6. Experience -> Footer: Footer (margin atas -100svh di globals.css) naik menimpa layar terakhir drum.
+            // Lengkungan abu-abu di atasnya ikut naik sampai hilang, judul naik ke posisinya, isi lain muncul bertahap.
+            const footer = document.querySelector<HTMLElement>("[data-footer]");
+            if (footer) {
+                gsap.timeline({
+                    defaults: { ease: "none" },
+                    scrollTrigger: { trigger: footer, start: "top bottom", end: "top top", scrub: 0.6, invalidateOnRefresh: true },
+                })
+                    .to("[data-footer-cap]", { scaleY: 0, duration: 1 }, 0)
+                    .from("[data-footer-title]", { y: () => window.innerHeight * 0.25, duration: 1 }, 0)
+                    .from("[data-footer-reveal]", { y: 60, opacity: 0, stagger: 0.08, duration: 0.3, ease: "power1.out" }, 0.7);
+            }
 
             // Link navigasi (#about, #work, #experience) diarahkan ke posisi scroll yang tepat di dalam drum
             const onClick = (e: MouseEvent) => {
@@ -208,6 +251,10 @@ export default function ScrollAnimations() {
                 document.removeEventListener("click", onClick);
                 faces.forEach((face) => face.removeAttribute("style"));
                 dots.forEach((dot) => dot.removeAttribute("data-active"));
+                items.forEach((item) => {
+                    item.removeAttribute("data-shown");
+                    item.querySelector<HTMLElement>("[data-exp-line]")?.style.removeProperty("transform");
+                });
                 delete html.dataset.anim;
             };
         });

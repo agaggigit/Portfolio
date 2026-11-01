@@ -46,6 +46,7 @@ export default function Experience() {
         <section id="experience" data-exp data-drum-face aria-labelledby="experience-title" className="relative overflow-hidden bg-grey py-16 md:h-[calc(1024*var(--u))] md:min-h-svh md:py-0">
             <h2
                 id="experience-title"
+                data-exp-title
                 className="text-center font-heading text-[2.5rem] leading-none font-bold text-white md:pt-[calc(95*var(--u))] md:text-[calc(74*var(--u))]"
             >
                 Experience
@@ -76,18 +77,21 @@ export default function Experience() {
                     {experiences.map((item, i) => {
                         const above = i % 2 === 0;
                         return (
-                            <li key={`${item.organization}-${item.period}`} className="relative h-full w-[calc(480*var(--u))] shrink-0">
+                            <li key={`${item.organization}-${item.period}`} data-exp-item className="relative h-full w-[calc(480*var(--u))] shrink-0">
                                 {/* Garis kuning horizontal menuju titik berikutnya */}
-                                <span aria-hidden className="absolute top-1/2 left-0 h-[calc(4*var(--u))] w-full -translate-y-1/2 bg-yellow" />
+                                <span aria-hidden data-exp-line className="absolute top-1/2 left-0 h-[calc(4*var(--u))] w-full -translate-y-1/2 bg-yellow" />
                                 {/* Garis putus-putus vertikal + titik ujung */}
                                 <span
                                     aria-hidden
+                                    data-exp-pop="dash"
                                     className={`absolute left-[calc(16*var(--u))] w-[calc(4*var(--u))] -translate-x-1/2 bg-[repeating-linear-gradient(to_bottom,var(--color-sand)_0_calc(12*var(--u)),transparent_calc(12*var(--u))_calc(24*var(--u)))] ${above ? "top-[calc(16*var(--u))] bottom-1/2" : "top-1/2 bottom-[calc(16*var(--u))]"}`}
                                 />
-                                <span aria-hidden className={`absolute left-0 size-[calc(32*var(--u))] rounded-full bg-sand ${above ? "top-0" : "bottom-0"}`} />
-                                <Ring className="absolute top-1/2 left-0 -translate-y-1/2" />
+                                <span aria-hidden data-exp-pop="end" className={`absolute left-0 size-[calc(32*var(--u))] rounded-full bg-sand ${above ? "top-0" : "bottom-0"}`} />
+                                <span data-exp-pop="ring" className="absolute top-1/2 left-0 -translate-y-1/2">
+                                    <Ring />
+                                </span>
 
-                                <div className={`absolute left-[calc(52*var(--u))] ${above ? "bottom-[calc(50%+36*var(--u))]" : "top-[calc(50%+36*var(--u))]"}`}>
+                                <div data-exp-pop="card" className={`absolute left-[calc(52*var(--u))] ${above ? "bottom-[calc(50%+36*var(--u))]" : "top-[calc(50%+36*var(--u))]"}`}>
                                     <Card item={item} />
                                 </div>
                             </li>
