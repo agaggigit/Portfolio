@@ -1,43 +1,119 @@
-import { moreProjectsHref, projects } from "@/data/site";
-import ProjectCarousel from "./ProjectCarousel";
+import Image from "next/image";
+import { moreProjectsHref, projects, type Project } from "@/data/site";
 
-// Desktop: posisi persen di dalam "stage" = posisi di frame Figma "Project Wheel" (1440x1024).
-// Ditulis utuh supaya Tailwind bisa mendeteksi class-nya
-const vertical = "md:[writing-mode:vertical-rl] md:[text-orientation:upright]";
+// Tiap project = satu panel abu-abu. Di desktop (animasi aktif) tiap panel jadi satu "muka" drum yang
+// diputar oleh ScrollAnimations (lihat globals.css bagian "Drum"). Tanpa animasi / di HP: panel ditumpuk ke bawah.
+// Ukuran panel = frame Figma "Project Wheel": 1128 x 713 piksel Figma (unit --u).
+
+// Warna kotak tech stack bergantian sesuai desain
+const techColors = ["bg-red", "bg-yellow", "bg-blue"];
+
+// Seberapa dalam sisi kiri-kanan panel melengkung ke dalam, dalam piksel Figma (dari lebar panel 1128).
+// 0 = lurus, desain Figma asli ~38. Bentuk ikut melar mengikuti ukuran panel.
+const PANEL_CURVE = 14;
+const W = 1128;
+const H = 713;
+const R = 26; // radius sudut
+const c = PANEL_CURVE * 2; // titik kontrol kurva kuadrat = 2x kedalaman lengkungan
+const panelPath = `M${R},0 H${W - R} Q${W},0 ${W},${R} Q${W - c},${H / 2} ${W},${H - R} Q${W},${H} ${W - R},${H} H${R} Q0,${H} 0,${H - R} Q${c},${H / 2} 0,${R} Q0,0 ${R},0 Z`;
+
+function PanelShape() {
+    return (
+        <svg aria-hidden viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="absolute inset-0 hidden size-full fill-grey md:block">
+            <path d={panelPath} />
+        </svg>
+    );
+}
+
+function Screen({ project }: { project: Project }) {
+    return (
+        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-[#0d1117] shadow-2xl md:aspect-auto md:min-h-0 md:flex-1 md:rounded-[calc(44*var(--u))]">
+            {project.image ? (
+                <Image src={project.image} alt={`Screenshot ${project.name}`} fill sizes="(min-width: 768px) 70vw, 95vw" className="object-cover object-top" />
+            ) : (
+                // Placeholder sampai screenshot project diisi di data/site.ts
+                <div
+                    aria-hidden
+                    className="absolute inset-0 bg-[linear-gradient(#ffffff0d_1px,transparent_1px),linear-gradient(90deg,#ffffff0d_1px,transparent_1px)] bg-[size:2rem_2rem] p-[6%]"
+                >
+                    <p className="font-heading text-[2rem] leading-none font-extrabold text-white/10 uppercase md:text-[calc(88*var(--u))]">{project.name}</p>
+                </div>
+            )}
+        </div>
+    );
+}
+
+function ProjectPanel({ project }: { project: Project }) {
+    return (
+        <li data-drum-face className="flex justify-center md:items-center">
+            <article className="relative flex w-full max-w-3xl flex-col rounded-3xl bg-grey px-[5%] pt-[6%] pb-[7%] md:h-[calc(713*var(--u))] md:w-[calc(1128*var(--u))] md:max-w-none md:rounded-none md:bg-transparent md:pt-[2.5%] md:pb-[3%]">
+                <PanelShape />
+                <Screen project={project} />
+
+                <div className="relative mt-5 grid grid-cols-1 items-center md:grid-cols-[1fr_auto] gap-x-4 gap-y-1 text-white md:mt-[2.2%]">
+                    <h3 className="font-heading text-2xl leading-tight font-bold uppercase md:text-[calc(48*var(--u))]">{project.name}</h3>
+                    <ul className="flex flex-wrap gap-[0.6em] text-[0.55rem] md:text-[max(0.55rem,calc(11*var(--u)))]" aria-label="Tech stack">
+                        {project.tech.map((t, i) => (
+                            <li
+                                key={t}
+                                title={t}
+                                className={`grid h-9 min-w-9 place-items-center rounded-[0.9rem] px-[0.7em] text-center font-heading leading-tight font-bold text-black md:h-[max(2.25rem,calc(50*var(--u)))] md:min-w-[max(2.25rem,calc(50*var(--u)))] md:rounded-[calc(20*var(--u))] ${techColors[i % techColors.length]}`}
+                            >
+                                {t}
+                            </li>
+                        ))}
+                    </ul>
+                    <p className="font-paragraph text-sm md:text-[calc(22*var(--u))]">{project.role}</p>
+                    {project.href ? (
+                        <a href={project.href} target="_blank" rel="noreferrer" className="group font-paragraph md:justify-self-end text-sm md:text-[calc(22*var(--u))]">
+                            Learn more <span className="inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
+                        </a>
+                    ) : (
+                        <span />
+                    )}
+                    <p className="mt-2 max-w-3xl md:col-span-2 font-paragraph text-sm text-white/85 md:mt-[calc(8*var(--u))] md:max-w-[calc(820*var(--u))] md:text-[max(0.8rem,calc(17*var(--u)))]">
+                        {project.description}
+                    </p>
+                </div>
+            </article>
+        </li>
+    );
+}
 
 export default function Projects() {
     return (
-        <section id="work" aria-labelledby="work-title" className="relative overflow-hidden bg-white px-4 py-16 md:p-0">
-            <div className="flex flex-col items-center gap-6 md:stage md:block">
-                {/* Potongan abu-abu atas & bawah (bagian dari "roda") */}
-                <div aria-hidden className="absolute top-[-15.14%] left-[-3.26%] hidden h-[28.42%] w-[106.36%] md:block">
-                    <img src="/shapes/project-top.svg" alt="" className="block size-full max-w-none" />
-                </div>
-                <div aria-hidden className="absolute top-[86.62%] left-[-3.49%] hidden h-[29.59%] w-[106.7%] -scale-y-100 md:block">
-                    <img src="/shapes/project-bottom.svg" alt="" className="block size-full max-w-none" />
-                </div>
+        <section id="work" data-projects aria-labelledby="work-title" className="relative bg-white px-4 py-16 md:px-0 md:py-[calc(120*var(--u))]">
+            {/* Label & indikator: di atas/bawah daftar saat statis, menempel di kiri/kanan drum saat animasi aktif */}
+            <h2
+                id="work-title"
+                data-projects-label
+                className="text-center font-heading text-[2rem] leading-none font-bold text-black uppercase md:text-[calc(64*var(--u))]"
+            >
+                Projects
+            </h2>
 
-                <h2
-                    id="work-title"
-                    className={`font-heading text-[2rem] leading-none font-bold tracking-[0.15em] text-black uppercase md:absolute md:top-1/2 md:left-[5.24%] md:-translate-x-1/2 md:-translate-y-1/2 md:text-[calc(48*var(--u))] md:tracking-normal ${vertical}`}
-                >
-                    Projects
-                </h2>
+            <ol className="mt-10 space-y-8 md:mt-[calc(64*var(--u))] md:space-y-[calc(48*var(--u))]">
+                {projects.map((project) => (
+                    <ProjectPanel key={project.name} project={project} />
+                ))}
+            </ol>
 
-                <div className="relative w-full md:absolute md:top-[15.14%] md:left-[10.89%] md:h-[69.63%] md:w-[78.33%]">
-                    <img src="/shapes/project-panel.svg" alt="" aria-hidden className="absolute inset-0 block size-full max-w-none" />
-                    <ProjectCarousel projects={projects} />
-                </div>
+            <a
+                href={moreProjectsHref}
+                target="_blank"
+                rel="noreferrer"
+                data-projects-more
+                className="group mx-auto mt-10 flex w-fit items-center gap-3 font-heading text-xl leading-none font-bold whitespace-nowrap text-black uppercase md:mt-[calc(64*var(--u))] md:text-[calc(48*var(--u))]"
+            >
+                See More <span aria-hidden className="transition-transform group-hover:translate-x-1">&rarr;</span>
+            </a>
 
-                <a
-                    href={moreProjectsHref}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={`group flex items-center gap-3 font-heading text-xl leading-none font-bold whitespace-nowrap text-black uppercase md:absolute md:top-1/2 md:left-[94.76%] md:-translate-x-1/2 md:-translate-y-1/2 md:text-[calc(48*var(--u))] ${vertical}`}
-                >
-                    See More <span aria-hidden className="transition-transform group-hover:translate-x-1">&rarr;</span>
-                </a>
-            </div>
+            {/* Indikator project aktif, hanya tampil saat drum berputar (diatur ScrollAnimations) */}
+            <ol data-projects-dots aria-hidden className="hidden gap-[calc(12*var(--u))] rounded-full bg-black px-[calc(16*var(--u))] py-[calc(10*var(--u))]">
+                {projects.map((project) => (
+                    <li key={project.name} className="size-[max(0.5rem,calc(12*var(--u)))] rounded-full bg-white/30 transition-colors data-[active]:bg-yellow" />
+                ))}
+            </ol>
         </section>
     );
 }

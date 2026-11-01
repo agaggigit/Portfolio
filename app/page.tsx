@@ -30,9 +30,12 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <AboutMe />
-        <Projects />
-        <Experience />
+        {/* "Drum": About, tiap project, dan Experience jadi muka-muka satu roda yang diputar scroll (desktop) */}
+        <div data-drum>
+          <AboutMe />
+          <Projects />
+          <Experience />
+        </div>
       </main>
       <Footer />
     </>

@@ -54,7 +54,62 @@ html[data-intro="play"] body {
   overflow: hidden;
 }
 
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+
+/* Drum (desktop, saat animasi scroll aktif → html[data-anim]):
+   About, tiap project, dan Experience ditumpuk di satu layar; ScrollAnimations memutar tiap muka
+   pada sumbu horizontal di depan layar, sehingga terlihat seperti sisi dalam sebuah roda. */
+@media (min-width: 768px) {
+  html[data-anim] [data-drum] {
+    position: relative;
+    height: 100svh;
+    overflow: hidden;
+  }
+  html[data-anim] [data-drum-face] {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    height: auto;
+    min-height: 0;
+    backface-visibility: hidden;
+    will-change: transform;
+  }
+  html[data-anim] [data-projects] {
+    position: absolute;
+    inset: 0;
+    padding: 0;
+    background: transparent;
+    pointer-events: none;
+  }
+  html[data-anim] [data-projects] [data-drum-face] {
+    pointer-events: auto;
+  }
+  /* Label vertikal di kiri/kanan drum, posisi sesuai frame Figma "Project Wheel" */
+  html[data-anim] [data-projects-label],
+  html[data-anim] [data-projects-more] {
+    position: absolute;
+    top: 50%;
+    margin: 0;
+    z-index: 2000;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    font-size: calc(48 * var(--u));
+    pointer-events: auto;
+    translate: -50% -50%;
+  }
+  html[data-anim] [data-projects-label] { left: calc(75 * var(--u)); }
+  html[data-anim] [data-projects-more] { left: calc(100% - 75 * var(--u)); }
+  /* Panel project dibuat hampir selebar layar (sisa kiri-kanan untuk label) supaya
+     proporsional dengan muka About & Experience yang selebar layar */
+  html[data-anim] [data-projects] article {
+    width: calc(100vw - 300 * var(--u));
+    height: 80svh;
+  }
+  html[data-anim] [data-projects-dots] {
+    position: absolute;
+    bottom: calc(24 * var(--u));
+    left: 50%;
+    z-index: 2000;
+    display: flex;
+    translate: -50% 0;
+  }
 }

@@ -43,7 +43,7 @@ function Card({ item }: { item: Item }) {
 
 export default function Experience() {
     return (
-        <section id="experience" aria-labelledby="experience-title" className="relative overflow-hidden bg-grey py-16 md:h-[calc(1024*var(--u))] md:py-0">
+        <section id="experience" data-exp data-drum-face aria-labelledby="experience-title" className="relative overflow-hidden bg-grey py-16 md:h-[calc(1024*var(--u))] md:min-h-svh md:py-0">
             <h2
                 id="experience-title"
                 className="text-center font-heading text-[2.5rem] leading-none font-bold text-white md:pt-[calc(95*var(--u))] md:text-[calc(74*var(--u))]"
@@ -70,9 +70,9 @@ export default function Experience() {
                 ))}
             </ol>
 
-            {/* Desktop: timeline horizontal yang bisa di-scroll */}
-            <div className="mt-[calc(80*var(--u))] hidden overflow-x-auto overflow-y-hidden [scrollbar-color:var(--color-yellow)_transparent] md:block">
-                <ol className="flex h-[calc(680*var(--u))] w-max pr-[calc(700*var(--u))] pl-[calc((100vw-1440*var(--u))/2+189*var(--u))]">
+            {/* Desktop: timeline horizontal. Dengan animasi aktif, digeser oleh scroll vertikal (ScrollAnimations) */}
+            <div data-exp-scroller className="mt-[calc(80*var(--u))] hidden overflow-x-auto overflow-y-hidden [scrollbar-color:var(--color-yellow)_transparent] md:block">
+                <ol data-exp-track className="flex h-[calc(680*var(--u))] w-max pr-[calc(700*var(--u))] pl-[calc((100vw-1440*var(--u))/2+189*var(--u))]">
                     {experiences.map((item, i) => {
                         const above = i % 2 === 0;
                         return (

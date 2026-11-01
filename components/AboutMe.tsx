@@ -31,7 +31,7 @@ function Name({ className, hidden }: { className: string; hidden?: boolean }) {
 
 export default function AboutMe() {
  return (
-    <section id="about" data-about className="relative overflow-hidden bg-grey text-white">
+    <section id="about" data-about data-drum-face className="relative overflow-hidden bg-grey text-white">
        {/* Badge menempel ke tepi kiri layar (bukan tepi stage) */}
        <p data-about-badge className="relative z-30 mt-20 inline-flex items-center gap-[0.6em] rounded-r-full bg-black py-[0.35em] pr-[0.35em] pl-[1.4em] font-heading text-sm leading-[1.06] font-medium md:absolute md:top-[calc(58*var(--u))] md:left-0 md:mt-0 md:text-[max(0.875rem,calc(24*var(--u)))]">
           <span>
