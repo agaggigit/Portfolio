@@ -3,6 +3,7 @@ import { syne, inter } from "./fonts";
 import { profile, siteUrl } from "@/data/site";
 import Intro from "@/components/Intro";
 import ScrollAnimations from "@/components/ScrollAnimations";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 const description = `${profile.fullName} (${profile.nickname}) — ${profile.role}. Software engineering, data, and machine learning projects.`;

@@ -141,6 +141,25 @@ html[data-intro="play"] body {
   html[data-anim] [data-drum] {
     isolation: isolate;
   }
+  /* Hero tidak perlu digulir keluar setelah menutup layar: drum langsung berada tepat di bawahnya, Hero memudar di atasnya */
+  html[data-anim] [data-drum] {
+    margin-top: -100svh;
+  }
+  html[data-anim] [data-hero] {
+    z-index: 5;
+  }
+  /* Celah di atas About selama Hero memudar diisi abu-abu yang sama */
+  html[data-anim] .pin-spacer:has(> [data-drum]) {
+    position: relative;
+  }
+  html[data-anim] .pin-spacer:has(> [data-drum])::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: -100svh;
+    height: 100svh;
+    background: var(--color-grey);
+  }
   html[data-anim] [data-footer] {
     z-index: 10;
     margin-top: -100svh;
