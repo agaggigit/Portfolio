@@ -26,24 +26,55 @@ function Screen({ project }: { project: Project }) {
     return (
         <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-[#0d1117] shadow-2xl md:aspect-auto md:min-h-0 md:flex-1 md:rounded-[calc(44*var(--u))]">
             {project.image ? (
-                <Image src={project.image} alt={`Screenshot ${project.name}`} fill sizes="(min-width: 768px) 70vw, 95vw" className="object-cover object-top" />
+                <Image
+                    src={project.image}
+                    alt={`Screenshot ${project.name}`}
+                    fill
+                    sizes="(min-width: 768px) 70vw, 95vw"
+                    className="object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover/card:scale-[1.03]"
+                />
             ) : (
-                // Placeholder sampai screenshot project diisi di data/site.ts
-                <div
-                    aria-hidden
-                    className="absolute inset-0 bg-[linear-gradient(#ffffff0d_1px,transparent_1px),linear-gradient(90deg,#ffffff0d_1px,transparent_1px)] bg-[size:2rem_2rem] p-[6%]"
-                >
-                    <p className="font-heading text-[2rem] leading-none font-extrabold text-white/10 uppercase md:text-[calc(88*var(--u))]">{project.name}</p>
-                </div>
+                <Placeholder name={project.name} />
             )}
         </div>
+    );
+}
+
+function Placeholder({ name }: { name: string }) {
+    return (
+        // Placeholder sampai screenshot project diisi di data/site.ts
+        <div
+            aria-hidden
+            className="absolute inset-0 bg-[linear-gradient(#ffffff0d_1px,transparent_1px),linear-gradient(90deg,#ffffff0d_1px,transparent_1px)] bg-[size:2rem_2rem] p-[6%]"
+        >
+            <p className="font-heading text-[2rem] leading-none font-extrabold text-white/10 uppercase md:text-[calc(88*var(--u))]">{name}</p>
+        </div>
+    );
+}
+
+// Seluruh kartu jadi satu link: lapisan transparan di atas isi kartu (anak terakhir, supaya urutan anak lain
+// yang dipakai efek lag di ScrollAnimations tidak berubah). Di desktop kursor diganti label ProjectCursor
+// (nama project + domain tujuan), screenshot sedikit membesar dan panah "Learn more" bergeser saat di-hover.
+function CardLink({ project, href }: { project: Project; href: string }) {
+    const host = new URL(href).host.replace(/^www\./, "");
+    return (
+        <a
+            href={href}
+            target="_blank"
+            rel="noreferrer"
+            data-project-link
+            data-project-name={project.name}
+            data-project-host={host}
+            aria-label={`${project.name}, open on ${host}`}
+            className="absolute inset-0 z-10 rounded-[inherit] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+        />
     );
 }
 
 function ProjectPanel({ project }: { project: Project }) {
     return (
         <li data-drum-face className="flex justify-center md:items-center">
-            <article className="relative flex w-full max-w-3xl flex-col rounded-3xl bg-surface px-[5%] pt-[6%] pb-[7%] md:h-[calc(713*var(--u))] md:w-[calc(1128*var(--u))] md:max-w-none md:rounded-none md:bg-transparent md:pt-[2.5%] md:pb-[3%]">
+            <article className="group/card relative flex w-full max-w-3xl flex-col rounded-3xl bg-surface px-[5%] pt-[6%] pb-[7%] md:h-[calc(713*var(--u))] md:w-[calc(1128*var(--u))] md:max-w-none md:rounded-none md:bg-transparent md:pt-[2.5%] md:pb-[3%]">
                 <PanelShape />
                 <Screen project={project} />
 
@@ -62,9 +93,11 @@ function ProjectPanel({ project }: { project: Project }) {
                     </ul>
                     <p className="font-paragraph text-sm md:text-[calc(22*var(--u))]">{project.role}</p>
                     {project.href ? (
-                        <a href={project.href} target="_blank" rel="noreferrer" className="group font-paragraph md:justify-self-end text-sm md:text-[calc(22*var(--u))]">
-                            Learn more <span className="inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
-                        </a>
+                        // Hanya petunjuk visual: yang bisa diklik adalah seluruh kartu (CardLink di bawah). Disembunyikan selama
+                        // label kursor (ProjectCursor) aktif, karena label itu sudah menyampaikan hal yang sama; di HP tetap tampil
+                        <span aria-hidden data-learn-more className="font-paragraph text-sm md:justify-self-end md:text-[calc(22*var(--u))]">
+                            Learn more <span className="inline-block transition-transform group-hover/card:translate-x-1">&rarr;</span>
+                        </span>
                     ) : (
                         <span />
                     )}
@@ -72,6 +105,7 @@ function ProjectPanel({ project }: { project: Project }) {
                         {project.description}
                     </p>
                 </div>
+                {project.href && <CardLink project={project} href={project.href} />}
             </article>
         </li>
     );

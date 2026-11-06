@@ -4,6 +4,7 @@ import AboutMe from "@/components/AboutMe";
 import Projects from "@/components/Projects";
 import Experience from "@/components/Experience";
 import Footer from "@/components/Footer";
+import ProjectCursor from "@/components/ProjectCursor";
 import { profile, siteUrl, socials } from "@/data/site";
 
 // Data terstruktur untuk Google (schema.org Person)
@@ -38,6 +39,8 @@ export default function Home() {
         </div>
       </main>
       <Footer />
+      {/* Di luar drum: elemen fixed di dalam induk yang di-transform/di-pin tidak menempel ke layar */}
+      <ProjectCursor />
     </>
   );
 }

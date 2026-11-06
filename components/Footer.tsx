@@ -2,6 +2,7 @@ import Image from "next/image";
 import foto from "@/public/Foto.png";
 import { profile, socials } from "@/data/site";
 import LocalTime from "./LocalTime";
+import Magnetic from "./Magnetic";
 
 // Desktop: ukuran & posisi memakai unit --u (1 piksel Figma pada frame 1440x1024), lihat globals.css.
 export default function Footer() {
@@ -55,12 +56,22 @@ export default function Footer() {
                     />
 
                     <div data-footer-rise className="relative flex justify-center pt-20 md:absolute md:top-[calc(722*var(--u))] md:left-1/2 md:block md:-translate-x-1/2 md:pt-0">
-                        <a
-                            href={`mailto:${profile.email}`}
-                            className="block font-heading text-[11vw] leading-none font-bold whitespace-nowrap text-ink transition-transform hover:scale-105 md:text-[calc(116*var(--u))]"
-                        >
-                            Say Hello &rarr;
-                        </a>
+                        {/* Hover: bidang gelap naik dari bawah seperti kubah lalu mengisi pil, teks jadi kuning.
+                            Padding pil diimbangi margin negatif supaya posisi teks sama seperti tanpa pil */}
+                        <Magnetic>
+                            <a
+                                href={`mailto:${profile.email}`}
+                                className="group relative -mx-[0.4em] -my-[0.14em] block overflow-hidden rounded-full px-[0.4em] py-[0.14em] font-heading text-[11vw] leading-none font-bold whitespace-nowrap text-ink md:text-[calc(116*var(--u))]"
+                            >
+                                <span
+                                    aria-hidden
+                                    className="absolute inset-0 translate-y-[101%] rounded-t-[50%] bg-ink transition-[translate,border-radius] duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:translate-y-0 group-hover:rounded-t-none group-focus-visible:translate-y-0 group-focus-visible:rounded-t-none"
+                                />
+                                <span data-magnetic-inner className="relative inline-block transition-colors duration-300 group-hover:text-cta group-focus-visible:text-cta">
+                                    Say Hello &rarr;
+                                </span>
+                            </a>
+                        </Magnetic>
                     </div>
 
                     <div data-footer-rise className="relative mt-16 flex flex-col-reverse items-center gap-4 px-4 font-paragraph text-sm text-ink md:absolute md:top-[89%] md:right-[7.4%] md:left-[7.4%] md:mt-0 md:flex-row md:justify-between md:px-0 md:text-[max(0.8rem,calc(20*var(--u)))]">

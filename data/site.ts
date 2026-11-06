@@ -49,6 +49,9 @@ export type Project = {
   href?: string;
 };
 
+// Sementara semua project diarahkan ke profil GitHub; ganti dengan link demo/repo masing-masing kalau sudah ada
+const githubProfile = "https://github.com/agaggigit";
+
 export const projects: Project[] = [
   {
     name: "Talangin",
@@ -56,6 +59,7 @@ export const projects: Project[] = [
     description:
       "A progressive web app my friends use to track shared expenses and debts. Born from a problem we kept running into, and it still works offline.",
     tech: ["React", "Express", "PostgreSQL", "PWA"],
+    href: githubProfile,
   },
   {
     name: "Pertamax Queue Simulation",
@@ -63,6 +67,7 @@ export const projects: Project[] = [
     description:
       "Modelled motorcycle queues at a gas station from four field observation sessions to measure waiting time and service load, presented as an interactive dashboard.",
     tech: ["Python", "SimPy", "Streamlit"],
+    href: githubProfile,
   },
   {
     name: "EcoRoute",
@@ -70,6 +75,7 @@ export const projects: Project[] = [
     description:
       "A desktop app that compares the carbon footprint of different routes and transport modes to nudge people toward low-emission trips. Work in progress.",
     tech: ["C#", ".NET"],
+    href: githubProfile,
   },
   {
     name: "GradaTim",
@@ -77,10 +83,11 @@ export const projects: Project[] = [
     description:
       "An AI assistant that breaks big goals down into tasks and a daily schedule.",
     tech: ["Python", "Gemini API"],
+    href: githubProfile,
   },
 ];
 
-export const moreProjectsHref = "https://github.com/agaggigit";
+export const moreProjectsHref = githubProfile;
 
 export type Experience = {
   period: string;

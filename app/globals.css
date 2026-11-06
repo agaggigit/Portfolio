@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* hover: bawaan Tailwind memakai media query (hover: hover), yang di sebagian laptop layar sentuh melapor
+   "tidak bisa hover" walau trackpad dipakai. Jadi hover aktif setelah gerakan mouse sungguhan terdeteksi
+   (lib/mouse memasang <html data-mouse>). Di HP atribut itu tidak pernah ada, jadi hover tidak "nyangkut" saat disentuh. */
+@custom-variant hover {
+  &:where(html[data-mouse] *):hover {
+    @slot;
+  }
+}
+
 /*
   Warna diberi nama menurut PERANNYA, bukan menurut warnanya. Tiap token punya nilai tema terang & gelap:
   light-dark(terang, gelap). Tema mana yang aktif ditentukan color-scheme di <html> (lihat bawah & skrip di layout).
@@ -205,4 +214,13 @@ html[data-intro="play"] body {
     z-index: 10;
     margin-top: -100svh;
   }
+}
+
+/* Bulatan "View" (ProjectCursor) menggantikan kursor di atas kartu project yang punya link */
+html[data-view-cursor] [data-project-link] {
+  cursor: none;
+}
+/* "Learn more" di kartu project dobel dengan label kursor, jadi disembunyikan selama label itu aktif */
+html[data-view-cursor] [data-learn-more] {
+  display: none;
 }

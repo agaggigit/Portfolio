@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { profile } from "@/data/site";
 import { Close } from "./icons";
 import ThemeToggle from "./ThemeToggle";
+import Magnetic from "./Magnetic";
 
 const links = [
     { href: "#work", label: "Work" },
@@ -74,15 +75,18 @@ export default function Navbar() {
                 aria-label="Open menu"
                 aria-expanded={open}
                 aria-controls="site-menu"
-                className={`fixed top-4 right-4 z-40 size-14 rounded-full transition-all duration-300 hover:scale-105 md:top-[calc(28*var(--u))] md:right-[calc(28*var(--u))] md:size-[max(3.5rem,calc(104*var(--u)))] ${
+                className={`fixed top-4 right-4 z-40 size-14 rounded-full transition-all duration-300 md:top-[calc(28*var(--u))] md:right-[calc(28*var(--u))] md:size-[max(3.5rem,calc(104*var(--u)))] ${
                     atHero ? "md:pointer-events-none md:scale-75 md:opacity-0" : ""
                 }`}
             >
-                {/* Ikon menu; warnanya ikut tema (sama dengan label "Based in Yogyakarta") */}
-                <svg aria-hidden viewBox="0 0 149 149" className="block size-full">
-                    <circle cx="74.5" cy="74.5" r="74.5" className="fill-card" />
-                    <path d="M44 58.9667H105M44 71.6871H105M44 85.5138H105" strokeWidth="4.06667" className="stroke-on-card" />
-                </svg>
+                {/* Ikon menu; warnanya ikut tema (sama dengan label "Based in Yogyakarta").
+                    Magnetik: lingkaran tertarik ke kursor, garis-garisnya sedikit lebih jauh */}
+                <Magnetic className="size-full" strength={0.6}>
+                    <svg aria-hidden viewBox="0 0 149 149" className="block size-full overflow-visible">
+                        <circle cx="74.5" cy="74.5" r="74.5" className="fill-card" />
+                        <path data-magnetic-inner d="M44 58.9667H105M44 71.6871H105M44 85.5138H105" strokeWidth="4.06667" className="stroke-on-card" />
+                    </svg>
+                </Magnetic>
             </button>
 
             <div
