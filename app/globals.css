@@ -1,17 +1,50 @@
 @import "tailwindcss";
 
+/*
+  Warna diberi nama menurut PERANNYA, bukan menurut warnanya. Tiap token punya nilai tema terang & gelap:
+  light-dark(terang, gelap). Tema mana yang aktif ditentukan color-scheme di <html> (lihat bawah & skrip di layout).
+  Aturan sistem: netral hitam-putih + satu aksen kuning. Di latar terang kuning tidak bisa jadi warna teks
+  (kontras terlalu rendah), jadi teks aksen memakai emas tua.
+*/
 @theme {
-  --color-white: #E7E7E7;
+  --color-page: light-dark(#F3F1EC, #0B0B0B); /* latar halaman: Hero, Projects */
+  --color-surface: light-dark(#E8E5DE, #161616); /* permukaan: About, panel project, Experience */
+  --color-fg: light-dark(#161616, #DCD9D1); /* teks utama */
+  --color-fg-muted: light-dark(#5C5B57, #A9A69E); /* teks isi/pendukung */
+  --color-name: light-dark(#161616, #3A3935); /* nama besar di About (dekorasi, samar di tema gelap) */
+  --color-accent: light-dark(#A0700E, #E0B457); /* teks aksen, garis & titik timeline */
+  --color-cta: light-dark(#F0B942, #E0B457); /* bidang kuning: lengkungan footer, indikator aktif */
+  --color-card: light-dark(#161616, #242424); /* kartu & pil gelap */
+  --color-on-card: light-dark(#F3F1EC, #DCD9D1); /* teks di atas kartu & footer */
+  --color-chip: light-dark(#E8E5DE, #DCD9D1); /* lingkaran terang: ikon pin, foto profil footer */
+  --color-footer: light-dark(#161616, #101010);
+  --color-footer-muted: light-dark(#F3F1EC, #A9A69E);
+  --color-ink: #161616; /* teks gelap di atas bidang kuning, sama di kedua tema */
 
+  /* Warna tetap, tidak ikut tema: tirai Intro & menu layar penuh */
   --color-black: #010400;
-  --color-blue: #3C6997;
-  --color-yellow: #FFC847;
-  --color-grey: #A5A5A5;
-  --color-red: #973C3E;
-  --color-sand: #D2B97F;
+  --color-white: #E7E7E7;
 
   --font-heading: var(--font-syne), sans-serif;
   --font-paragraph: var(--font-dm_sans), sans-serif;
+}
+
+/* Tanpa pilihan tersimpan (dan tanpa JavaScript) tema mengikuti sistem; skrip di layout mengisi data-theme */
+:root {
+  color-scheme: light dark;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+/* Varian Tailwind `dark:` mengikuti data-theme */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Foto besar di About sedikit diredupkan di tema gelap supaya tidak menyilaukan */
+[data-theme="dark"] [data-about-photo] {
+  filter: brightness(0.85) saturate(0.85);
 }
 
 /*
@@ -158,7 +191,7 @@ html[data-intro="play"] body {
     inset-inline: 0;
     top: -100svh;
     height: 100svh;
-    background: var(--color-grey);
+    background: var(--color-surface);
   }
   html[data-anim] [data-footer] {
     z-index: 10;

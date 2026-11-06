@@ -46,8 +46,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             __html: `try{if(!sessionStorage.getItem("intro-seen")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.dataset.intro="play"}catch(e){}`,
           }}
         />
+        {/* Tema: pilihan tersimpan, kalau tidak ada ikut sistem (dan ikut berubah saat sistem berubah). Dipasang
+            sebelum halaman tampil supaya tidak berkedip dari terang ke gelap */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var d=document.documentElement,m=matchMedia("(prefers-color-scheme: dark)"),s=function(){var t=localStorage.getItem("theme");d.dataset.theme=t==="light"||t==="dark"?t:m.matches?"dark":"light"};s();m.addEventListener("change",function(){if(!localStorage.getItem("theme"))s()})}catch(e){}`,
+          }}
+        />
       </head>
-      <body className="min-h-full flex flex-col bg-white" suppressHydrationWarning>
+      <body className="min-h-full flex flex-col bg-page" suppressHydrationWarning>
         <Intro />
         {children}
         <ScrollAnimations />

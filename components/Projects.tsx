@@ -5,9 +5,6 @@ import { moreProjectsHref, projects, type Project } from "@/data/site";
 // diputar oleh ScrollAnimations (lihat globals.css bagian "Drum"). Tanpa animasi / di HP: panel ditumpuk ke bawah.
 // Ukuran panel = frame Figma "Project Wheel": 1128 x 713 piksel Figma (unit --u).
 
-// Warna kotak tech stack bergantian sesuai desain
-const techColors = ["bg-red", "bg-yellow", "bg-blue"];
-
 // Seberapa dalam sisi kiri-kanan panel melengkung ke dalam, dalam piksel Figma (dari lebar panel 1128).
 // 0 = lurus, desain Figma asli ~38. Bentuk ikut melar mengikuti ukuran panel.
 const PANEL_CURVE = 14;
@@ -19,7 +16,7 @@ const panelPath = `M${R},0 H${W - R} Q${W},0 ${W},${R} Q${W - c},${H / 2} ${W},$
 
 function PanelShape() {
     return (
-        <svg aria-hidden viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="absolute inset-0 hidden size-full fill-grey md:block">
+        <svg aria-hidden viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" className="absolute inset-0 hidden size-full fill-surface md:block">
             <path d={panelPath} />
         </svg>
     );
@@ -46,18 +43,18 @@ function Screen({ project }: { project: Project }) {
 function ProjectPanel({ project }: { project: Project }) {
     return (
         <li data-drum-face className="flex justify-center md:items-center">
-            <article className="relative flex w-full max-w-3xl flex-col rounded-3xl bg-grey px-[5%] pt-[6%] pb-[7%] md:h-[calc(713*var(--u))] md:w-[calc(1128*var(--u))] md:max-w-none md:rounded-none md:bg-transparent md:pt-[2.5%] md:pb-[3%]">
+            <article className="relative flex w-full max-w-3xl flex-col rounded-3xl bg-surface px-[5%] pt-[6%] pb-[7%] md:h-[calc(713*var(--u))] md:w-[calc(1128*var(--u))] md:max-w-none md:rounded-none md:bg-transparent md:pt-[2.5%] md:pb-[3%]">
                 <PanelShape />
                 <Screen project={project} />
 
-                <div className="relative mt-5 grid grid-cols-1 items-center md:grid-cols-[1fr_auto] gap-x-4 gap-y-1 text-white md:mt-[2.2%]">
+                <div className="relative mt-5 grid grid-cols-1 items-center md:grid-cols-[1fr_auto] gap-x-4 gap-y-1 text-fg md:mt-[2.2%]">
                     <h3 className="font-heading text-2xl leading-tight font-bold uppercase md:text-[calc(48*var(--u))]">{project.name}</h3>
                     <ul className="flex flex-wrap gap-[0.6em] text-[0.55rem] md:text-[max(0.55rem,calc(11*var(--u)))]" aria-label="Tech stack">
-                        {project.tech.map((t, i) => (
+                        {project.tech.map((t) => (
                             <li
                                 key={t}
                                 title={t}
-                                className={`grid h-9 min-w-9 place-items-center rounded-[0.9rem] px-[0.7em] text-center font-heading leading-tight font-bold text-black md:h-[max(2.25rem,calc(50*var(--u)))] md:min-w-[max(2.25rem,calc(50*var(--u)))] md:rounded-[calc(20*var(--u))] ${techColors[i % techColors.length]}`}
+                                className={`grid h-9 min-w-9 place-items-center rounded-[0.9rem] px-[0.7em] text-center border border-current font-heading leading-tight font-bold md:h-[max(2.25rem,calc(50*var(--u)))] md:min-w-[max(2.25rem,calc(50*var(--u)))] md:rounded-[calc(20*var(--u))]`}
                             >
                                 {t}
                             </li>
@@ -71,7 +68,7 @@ function ProjectPanel({ project }: { project: Project }) {
                     ) : (
                         <span />
                     )}
-                    <p className="mt-2 max-w-3xl md:col-span-2 font-paragraph text-sm text-white/85 md:mt-[calc(8*var(--u))] md:max-w-[calc(820*var(--u))] md:text-[max(0.8rem,calc(17*var(--u)))]">
+                    <p className="mt-2 max-w-3xl md:col-span-2 font-paragraph text-sm text-fg-muted md:mt-[calc(8*var(--u))] md:max-w-[calc(820*var(--u))] md:text-[max(0.8rem,calc(17*var(--u)))]">
                         {project.description}
                     </p>
                 </div>
@@ -82,12 +79,12 @@ function ProjectPanel({ project }: { project: Project }) {
 
 export default function Projects() {
     return (
-        <section id="work" data-projects aria-labelledby="work-title" className="relative bg-white px-4 py-16 md:px-0 md:py-[calc(120*var(--u))]">
+        <section id="work" data-projects aria-labelledby="work-title" className="relative bg-page px-4 py-16 md:px-0 md:py-[calc(120*var(--u))]">
             {/* Label & indikator: di atas/bawah daftar saat statis, menempel di kiri/kanan drum saat animasi aktif */}
             <h2
                 id="work-title"
                 data-projects-label
-                className="text-center font-heading text-[2rem] leading-none font-bold text-black uppercase md:text-[calc(64*var(--u))]"
+                className="text-center font-heading text-[2rem] leading-none font-bold text-fg uppercase md:text-[calc(64*var(--u))]"
             >
                 Projects
             </h2>
@@ -103,15 +100,15 @@ export default function Projects() {
                 target="_blank"
                 rel="noreferrer"
                 data-projects-more
-                className="group mx-auto mt-10 flex w-fit items-center gap-3 font-heading text-xl leading-none font-bold whitespace-nowrap text-black uppercase md:mt-[calc(64*var(--u))] md:text-[calc(48*var(--u))]"
+                className="group mx-auto mt-10 flex w-fit items-center gap-3 font-heading text-xl leading-none font-bold whitespace-nowrap text-fg uppercase md:mt-[calc(64*var(--u))] md:text-[calc(48*var(--u))]"
             >
                 See More <span aria-hidden className="transition-transform group-hover:translate-x-1">&rarr;</span>
             </a>
 
             {/* Indikator project aktif, hanya tampil saat drum berputar (diatur ScrollAnimations) */}
-            <ol data-projects-dots aria-hidden className="hidden gap-[calc(12*var(--u))] rounded-full bg-black px-[calc(16*var(--u))] py-[calc(10*var(--u))]">
+            <ol data-projects-dots aria-hidden className="hidden gap-[calc(12*var(--u))] rounded-full bg-card px-[calc(16*var(--u))] py-[calc(10*var(--u))]">
                 {projects.map((project) => (
-                    <li key={project.name} className="size-[max(0.5rem,calc(12*var(--u)))] rounded-full bg-white/30 transition-colors data-[active]:bg-yellow" />
+                    <li key={project.name} className="size-[max(0.5rem,calc(12*var(--u)))] rounded-full bg-on-card/30 transition-colors data-[active]:bg-cta" />
                 ))}
             </ol>
         </section>
