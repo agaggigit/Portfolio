@@ -51,7 +51,13 @@ export default function Navbar() {
     useEffect(() => {
         const hero = document.getElementById("home");
         if (!hero) return;
-        const observer = new IntersectionObserver(([entry]) => setAtHero(entry.isIntersecting), {
+        // Tanpa animasi scroll: Hero benar-benar digulir keluar, jadi cukup dilihat apakah masih tampil.
+        // Dengan animasi (html[data-anim]) Hero tidak pernah keluar layar (hanya memudar, drum ditumpuk di atasnya),
+        // jadi pengamat ini diabaikan; kalau tidak, saat scroll naik pill muncul jauh sebelum kubah mengecil.
+        const observer = new IntersectionObserver(([entry]) => {
+            if (document.documentElement.dataset.anim) return;
+            setAtHero(entry.isIntersecting);
+        }, {
             threshold: 0.4,
         });
         observer.observe(hero);

@@ -130,6 +130,8 @@ export default function ScrollAnimations() {
                         scrub: SCRUB,
                         invalidateOnRefresh: true,
                         onUpdate: (self) => reportCovered(self.progress),
+                        // Juga saat dihitung ulang, supaya Navbar benar walau halaman dimuat di tengah (mis. refresh di About)
+                        onRefresh: (self) => reportCovered(self.progress),
                     },
                 })
                     .to("[data-hero-content]", { y: () => -window.innerHeight * 0.45, opacity: 0, duration: 0.8, ease: "power1.in" }, 0)
