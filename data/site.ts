@@ -50,7 +50,7 @@ export type Project = {
   href?: string;
 };
 
-// Sementara semua project diarahkan ke profil GitHub; ganti dengan link demo/repo masing-masing kalau sudah ada
+// Tiap project mengarah ke repo GitHub-nya (GradaTim belum punya repo publik, jadi ke profil). Demo menyusul.
 const githubProfile = "https://github.com/agaggigit";
 
 export const projects: Project[] = [
@@ -60,7 +60,7 @@ export const projects: Project[] = [
     description:
       "My friends and I kept forgetting who had paid for what, so I built Talangin to keep track of it for us. It’s a web app you can install on your phone, and we still use it now and then to split shared expenses and settle debts, even when there’s no internet connection.",
     tech: ["React", "Express", "PostgreSQL", "PWA"],
-    href: githubProfile,
+    href: `${githubProfile}/Talangin`,
   },
   {
     name: "Pertamax Queue Simulation",
@@ -68,7 +68,7 @@ export const projects: Project[] = [
     description:
       "For this project I went to a gas station four times to observe how motorcycles queued for fuel. I then used that data to build a simulation in SimPy and presented the waiting times and service load in an interactive dashboard.",
     tech: ["Python", "SimPy", "Streamlit"],
-    href: githubProfile,
+    href: `${githubProfile}/projek-TPS`,
   },
   {
     name: "EcoRoute",
@@ -76,7 +76,7 @@ export const projects: Project[] = [
     description:
       "EcoRoute is a desktop app that compares the carbon footprint of different routes and modes of transport, so people can easily see which trip is the greener one. I’m working on the interface together with two teammates, and the app is still in development.",
     tech: ["C#", ".NET"],
-    href: githubProfile,
+    href: `${githubProfile}/EcoRoute`,
   },
   {
     name: "GradaTim",

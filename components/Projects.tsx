@@ -52,11 +52,19 @@ function Placeholder({ name }: { name: string }) {
     );
 }
 
+// Tujuan link yang ditampilkan di label kursor: jelas apakah ke repo, ke profil GitHub, atau ke situs lain (demo).
+function destination(href: string) {
+    const url = new URL(href);
+    const host = url.host.replace(/^www\./, "");
+    if (host !== "github.com") return host;
+    return url.pathname.split("/").filter(Boolean).length >= 2 ? "GitHub repo" : "GitHub profile";
+}
+
 // Seluruh kartu jadi satu link: lapisan transparan di atas isi kartu (anak terakhir, supaya urutan anak lain
 // yang dipakai efek lag di ScrollAnimations tidak berubah). Di desktop kursor diganti label ProjectCursor
 // (nama project + domain tujuan), screenshot sedikit membesar dan panah "Learn more" bergeser saat di-hover.
 function CardLink({ project, href }: { project: Project; href: string }) {
-    const host = new URL(href).host.replace(/^www\./, "");
+    const host = destination(href);
     return (
         <a
             href={href}
@@ -65,7 +73,7 @@ function CardLink({ project, href }: { project: Project; href: string }) {
             data-project-link
             data-project-name={project.name}
             data-project-host={host}
-            aria-label={`${project.name}, open on ${host}`}
+            aria-label={`${project.name}, open ${host}`}
             className="absolute inset-0 z-10 rounded-[inherit] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
         />
     );
