@@ -232,3 +232,12 @@ html[data-view-cursor] [data-learn-more] {
   animation: none;
   mix-blend-mode: normal;
 }
+
+/* Scrollbar halaman disembunyikan: sebagian besar halaman "scroll di tempat" (Hero, roda, Footer di-pin), jadi
+   posisi thumb tidak mencerminkan apa yang terlihat. Scroll tetap jalan lewat roda/trackpad/keyboard/sentuh. */
+html {
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+  display: none;
+}
