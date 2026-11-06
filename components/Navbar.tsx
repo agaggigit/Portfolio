@@ -78,7 +78,7 @@ export default function Navbar() {
                     atHero ? "md:pointer-events-none md:scale-75 md:opacity-0" : ""
                 }`}
             >
-                {/* Sama dengan public/hamburger.svg, tapi warnanya ikut tema (sama dengan label "Based in Yogyakarta") */}
+                {/* Ikon menu; warnanya ikut tema (sama dengan label "Based in Yogyakarta") */}
                 <svg aria-hidden viewBox="0 0 149 149" className="block size-full">
                     <circle cx="74.5" cy="74.5" r="74.5" className="fill-card" />
                     <path d="M44 58.9667H105M44 71.6871H105M44 85.5138H105" strokeWidth="4.06667" className="stroke-on-card" />
