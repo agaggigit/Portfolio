@@ -20,7 +20,7 @@
   --color-surface: light-dark(#E8E5DE, #161616); /* permukaan: About, panel project, Experience */
   --color-fg: light-dark(#161616, #DCD9D1); /* teks utama */
   --color-fg-muted: light-dark(#5C5B57, #A9A69E); /* teks isi/pendukung */
-  --color-name: light-dark(#161616, #3A3935); /* nama besar di About (dekorasi, samar di tema gelap) */
+  --color-name: light-dark(#161616, #DCD9D1); /* nama besar di About, sama dengan teks utama di kedua tema */
   --color-accent: light-dark(#A0700E, #E0B457); /* teks aksen, garis & titik timeline */
   --color-cta: light-dark(#F0B942, #E0B457); /* bidang kuning: lengkungan footer, indikator aktif */
   --color-card: light-dark(#161616, #242424); /* kartu & pil gelap */
@@ -83,18 +83,6 @@
   margin-inline: auto;
 }
 
-@utility text-stroke-* {
-  -webkit-text-stroke-width: calc(--value(integer) * 1px);
-  stroke-width: calc(--value(integer) * 2px);
-
-  -webkit-text-stroke-color: --value(--color-*);
-  -webkit-text-stroke-color: --value([*]);
-  stroke: --value(--color-*);
-  stroke: --value([*]);
-
-  paint-order: stroke fill;
-  stroke-linejoin: round;
-}
 /* Intro hanya tampil kalau skrip di <head> menandai html[data-intro="play"] */
 #intro {
   display: none;
