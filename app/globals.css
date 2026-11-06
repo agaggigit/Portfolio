@@ -137,6 +137,14 @@ html[data-intro="play"] body {
     width: calc(100vw - 300 * var(--u));
     height: 80svh;
   }
+  /* Bentuk panel datang dari clip-path yang dihitung ScrollAnimations dari geometri roda,
+     jadi lengkungan statis (SVG, dipakai tanpa animasi) diganti latar polos */
+  html[data-anim] [data-projects] article {
+    background: var(--color-surface);
+  }
+  html[data-anim] [data-projects] article > svg:first-child {
+    display: none;
+  }
   html[data-anim] [data-projects-dots] {
     position: absolute;
     bottom: calc(24 * var(--u));
