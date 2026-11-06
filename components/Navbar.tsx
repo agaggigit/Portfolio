@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { profile } from "@/data/site";
 import { Close } from "./icons";
 import ThemeToggle from "./ThemeToggle";
@@ -24,6 +24,29 @@ export default function Navbar() {
     // Pill di atas hanya tampil selama Hero terlihat, setelah itu diganti tombol hamburger
     const [atHero, setAtHero] = useState(true);
     const [open, setOpen] = useState(false);
+    const menuButton = useRef<HTMLButtonElement>(null);
+    const menu = useRef<HTMLDivElement>(null);
+
+    // Menu muncul sebagai lingkaran yang membesar dari tengah tombol hamburger (dan mengecil kembali ke sana saat
+    // ditutup). Titik asal & jari-jari (sampai pojok layar terjauh) disimpan sebagai variabel CSS di elemen menu,
+    // dihitung ulang saat ukuran layar berubah, supaya membuka/menutup hanya mengganti satu nilai: 0 <-> jari-jari penuh.
+    useEffect(() => {
+        const place = () => {
+            const b = menuButton.current?.getBoundingClientRect();
+            const m = menu.current;
+            if (!b || !m) return;
+            // Tombol tersembunyi (lebar 0) saat di Hero desktop: pakai posisi tempatnya biasa muncul, pojok kanan atas
+            const x = b.width ? b.left + b.width / 2 : window.innerWidth - 60;
+            const y = b.height ? b.top + b.height / 2 : 60;
+            const r = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+            m.style.setProperty("--menu-x", `${x}px`);
+            m.style.setProperty("--menu-y", `${y}px`);
+            m.style.setProperty("--menu-r", `${Math.ceil(r)}px`);
+        };
+        place();
+        window.addEventListener("resize", place);
+        return () => window.removeEventListener("resize", place);
+    }, []);
 
     useEffect(() => {
         const hero = document.getElementById("home");
@@ -71,6 +94,7 @@ export default function Navbar() {
 
             <button
                 type="button"
+                ref={menuButton}
                 onClick={() => setOpen(true)}
                 aria-label="Open menu"
                 aria-expanded={open}
@@ -90,12 +114,15 @@ export default function Navbar() {
             </button>
 
             <div
+                ref={menu}
                 id="site-menu"
                 role="dialog"
                 aria-modal="true"
                 aria-label="Menu"
-                className={`fixed inset-0 z-50 flex flex-col bg-surface px-6 py-6 text-fg transition-opacity duration-300 md:px-12 ${
-                    open ? "opacity-100" : "pointer-events-none invisible opacity-0"
+                className={`fixed inset-0 z-50 flex flex-col bg-surface px-6 py-6 text-fg transition-[clip-path,visibility] duration-700 ease-[cubic-bezier(0.76,0,0.24,1)] motion-reduce:transition-none md:px-12 ${
+                    open
+                        ? "[clip-path:circle(var(--menu-r,150vmax)_at_var(--menu-x,100%)_var(--menu-y,0%))]"
+                        : "pointer-events-none invisible [clip-path:circle(0px_at_var(--menu-x,100%)_var(--menu-y,0%))]"
                 }`}
             >
                 <div className="ml-auto flex gap-3">

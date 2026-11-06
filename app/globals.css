@@ -224,3 +224,11 @@ html[data-view-cursor] [data-project-link] {
 html[data-view-cursor] [data-learn-more] {
   display: none;
 }
+
+/* Ganti tema (ThemeToggle): bawaan View Transitions adalah cross-fade. Dimatikan, karena tema baru dibuka
+   sebagai lingkaran dari tombol (animasi clip-path di ThemeToggle) di atas tampilan lama yang diam */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
