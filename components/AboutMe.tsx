@@ -42,12 +42,12 @@ export default function AboutMe() {
           </span>
        </p>
 
-       <div className="md:stage">
+       <div className="md:stage-wide">
           <div className="px-4 pt-8 text-center md:px-0 md:pt-[calc(99*var(--u))]">
              <h2 data-about-title className="font-heading text-[2.75rem] leading-[1.2] font-bold md:text-[calc(93*var(--u))]">
                 About <span className="text-accent">Me</span>
              </h2>
-             <p data-about-text className="relative z-30 text-fg-muted mx-auto mt-4 max-w-2xl font-paragraph text-base md:mt-[calc(40*var(--u))] md:w-[calc(1260*var(--u))] md:max-w-none md:text-[calc(28*var(--u))]">
+             <p data-about-text className="relative z-30 text-fg-muted mx-auto mt-4 max-w-2xl font-paragraph text-base md:mt-[calc(40*var(--u))] md:w-[87.5%] md:max-w-none md:text-balance md:text-[calc(28*var(--u))]">
                 {profile.about}
              </p>
           </div>
@@ -55,7 +55,7 @@ export default function AboutMe() {
           <div className="mt-10 flex flex-col gap-8 px-4 md:contents">
              <InfoColumn
                 className="md:absolute md:top-[45.3%] md:left-[21.4%] md:w-[39%] md:-translate-x-1/2"
-                title={<>Current <br /> Playground</>}
+                title={<>On The <br /> Screen</>}
                 items={profile.playground}
              />
              <InfoColumn
@@ -73,7 +73,7 @@ export default function AboutMe() {
                 alt={`Foto ${profile.fullName}`}
                 sizes="(min-width: 768px) 46vw, 90vw"
                 data-about-photo
-                className="relative z-10 mx-auto h-auto w-[min(90vw,28rem)] md:absolute md:bottom-0 md:left-[calc(50%+19*var(--u))] md:w-[calc(668*var(--u))] md:max-w-none md:-translate-x-1/2"
+                className="relative z-10 mx-auto h-auto w-[min(90vw,28rem)] md:absolute md:bottom-[calc(-60*var(--u))] md:left-[calc(50%+19*var(--u))] md:w-[calc(668*var(--u))] md:max-w-none md:-translate-x-1/2"
                 priority
              />
              <Name className="z-20 text-transparent text-stroke-2 text-stroke-name" hidden />
