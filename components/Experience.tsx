@@ -13,6 +13,19 @@ function Ring({ className = "" }: { className?: string }) {
     );
 }
 
+// Tempat foto selama image belum diisi di data/site.ts: kotak seukuran foto dengan pola kisi samar (seperti
+// placeholder screenshot project), jadi tata letak kartu sudah sama dengan versi akhirnya.
+function PhotoPlaceholder({ className = "" }: { className?: string }) {
+    return (
+        <div
+            aria-hidden
+            className={`grid aspect-[368/245] place-items-center rounded-xl bg-on-card/5 bg-[linear-gradient(#ffffff0d_1px,transparent_1px),linear-gradient(90deg,#ffffff0d_1px,transparent_1px)] bg-[size:1.25rem_1.25rem] font-paragraph text-xs text-on-card/40 ring-1 ring-on-card/10 ring-inset md:rounded-[calc(12*var(--u))] md:bg-[size:calc(24*var(--u))_calc(24*var(--u))] md:text-[calc(14*var(--u))] ${className}`}
+        >
+            Photo coming soon
+        </div>
+    );
+}
+
 function Card({ item }: { item: Item }) {
     return (
         <article className="flex items-start gap-5 rounded-2xl bg-card p-5 md:gap-[calc(24*var(--u))] md:rounded-[calc(24*var(--u))] md:p-[calc(28*var(--u))]">
@@ -27,7 +40,7 @@ function Card({ item }: { item: Item }) {
                     {item.description}
                 </p>
             </div>
-            {item.image && (
+            {item.image ? (
                 <Image
                     src={item.image}
                     alt={`${item.role}, ${item.organization}`}
@@ -36,6 +49,8 @@ function Card({ item }: { item: Item }) {
                     sizes="26vw"
                     className="hidden aspect-[368/245] w-[calc(300*var(--u))] rounded-[calc(12*var(--u))] object-cover md:block"
                 />
+            ) : (
+                <PhotoPlaceholder className="hidden w-[calc(300*var(--u))] shrink-0 md:grid" />
             )}
         </article>
     );
@@ -58,7 +73,7 @@ export default function Experience() {
                     <li key={`${item.organization}-${item.period}`} className="relative pl-6">
                         <Ring className="absolute top-6 -left-[11px]" />
                         <Card item={item} />
-                        {item.image && (
+                        {item.image ? (
                             <Image
                                 src={item.image}
                                 alt={`${item.role}, ${item.organization}`}
@@ -66,6 +81,8 @@ export default function Experience() {
                                 height={245}
                                 className="mt-3 aspect-[368/245] w-full max-w-xs rounded-xl object-cover"
                             />
+                        ) : (
+                            <PhotoPlaceholder className="mt-3 w-full max-w-xs" />
                         )}
                     </li>
                 ))}
