@@ -25,7 +25,7 @@ export default function Footer() {
                         Let&rsquo;s Work Together
                     </h2>
                     <p className="mx-auto mt-3 max-w-[20rem] text-footer-muted font-heading text-lg leading-tight font-bold md:mt-0 md:max-w-none md:text-[calc(32*var(--u))]">
-                        Have a project in mind or just want to chat?
+                        Looking for an intern, or just want to chat?
                     </p>
                 </div>
 
@@ -40,7 +40,7 @@ export default function Footer() {
                         />
                     </span>
                     <div>
-                        <p className="font-paragraph text-lg leading-tight font-bold md:text-[calc(26*var(--u))]">Open for collaboration</p>
+                        <p className="font-paragraph text-lg leading-tight font-bold md:text-[calc(26*var(--u))]">Open to internships</p>
                         <p className="font-paragraph text-sm text-footer-muted md:text-[calc(19*var(--u))]">
                             {profile.location}, ID. <LocalTime />
                         </p>
