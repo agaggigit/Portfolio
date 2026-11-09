@@ -5,7 +5,7 @@ export default function Hero() {
         <section
             id="home"
             data-hero
-            className="relative flex h-svh min-h-[32rem] flex-col items-center justify-center overflow-hidden bg-page px-4 text-center"
+            className="relative flex h-(--screen-h) min-h-[32rem] flex-col items-center justify-center overflow-hidden bg-page px-4 text-center"
         >
             <div data-hero-content className="relative z-10 flex flex-col items-center">
                 <h1

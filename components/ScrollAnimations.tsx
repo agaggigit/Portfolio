@@ -100,6 +100,17 @@ export default function ScrollAnimations() {
             // Penanda untuk CSS (globals.css bagian "Drum") bahwa animasi aktif
             html.dataset.anim = "on";
 
+            // --screen-h (globals.css) diisi tinggi layar yang sebenarnya. Unit CSS (vh/svh) tidak selalu ikut
+            // berubah saat fullscreen (F11) di Chrome, sehingga Hero & drum tertahan setinggi jendela lama.
+            // Sengaja tidak memeriksa jenis input: Chrome di laptop layar sentuh bisa mengaku tidak punya mouse.
+            const syncScreenH = () => html.style.setProperty("--screen-h", `${window.innerHeight}px`);
+            syncScreenH();
+            window.addEventListener("resize", syncScreenH);
+            ScrollTrigger.addEventListener("refreshInit", syncScreenH);
+            // ScrollTrigger mengabaikan perubahan tinggi kecil di perangkat yang ia anggap sentuh (address bar HP).
+            // Di layar selebar ini itu justru membuat F11 tidak dihitung ulang, jadi dimatikan.
+            ScrollTrigger.config({ ignoreMobileResize: false });
+
             // 1. Hero -> About: Hero ditahan, tonjolan abu-abu membesar sampai menutupi layar
             const hero = document.querySelector<HTMLElement>("[data-hero]");
             const dome = document.querySelector<HTMLElement>("[data-hero-dome]");
@@ -145,7 +156,16 @@ export default function ScrollAnimations() {
             // potongan atas di Figma) dan muka berikutnya naik dari bawah.
             const drum = document.querySelector<HTMLElement>("[data-drum]");
             const faces = gsap.utils.toArray<HTMLElement>("[data-drum-face]");
-            if (!drum || faces.length < 2) return () => delete html.dataset.anim;
+            const undoScreenH = () => {
+                window.removeEventListener("resize", syncScreenH);
+                ScrollTrigger.removeEventListener("refreshInit", syncScreenH);
+                html.style.removeProperty("--screen-h");
+                ScrollTrigger.config({ ignoreMobileResize: true });
+            };
+            if (!drum || faces.length < 2) {
+                undoScreenH();
+                return () => delete html.dataset.anim;
+            }
 
             const isProject = (face: HTMLElement) => face.matches("[data-projects] [data-drum-face]");
             const projectIndexes = faces.flatMap((face, i) => (isProject(face) ? [i] : []));
@@ -165,8 +185,10 @@ export default function ScrollAnimations() {
             let panelW = 0;
             let panelH = 0;
             const layout = () => {
-                const vh = drum.clientHeight;
-                const vw = drum.clientWidth;
+                // Ukuran layar, bukan ukuran drum: saat refresh dimulai drum yang di-pin masih membawa tinggi/lebar
+                // lama (px inline dari ScrollTrigger), jadi setelah fullscreen/resize panel terhitung dari ukuran lama.
+                const vh = window.innerHeight;
+                const vw = document.documentElement.clientWidth;
                 const panel = drum.querySelector<HTMLElement>("[data-projects] article");
                 const pw = panel?.offsetWidth ?? vw;
                 const ph = panel?.offsetHeight ?? vh;
@@ -366,7 +388,12 @@ export default function ScrollAnimations() {
                     layout();
                     render();
                 },
-                onRefresh: renderLine,
+                // Dihitung ulang setelah pin selesai diukur ulang juga, supaya pasti memakai ukuran terbaru
+                onRefresh: () => {
+                    layout();
+                    render();
+                    renderLine();
+                },
             });
 
             // Follow-through: tiap lapisan isi tertinggal dari wadahnya sebanding kecepatan scroll, lalu menyusul.
@@ -397,7 +424,7 @@ export default function ScrollAnimations() {
             };
             gsap.ticker.add(tickLag);
 
-            // 6. Experience -> Footer: Footer (margin atas -100svh di globals.css) naik menimpa layar terakhir drum.
+            // 6. Experience -> Footer: Footer (margin atas -100% tinggi layar di globals.css) naik menimpa layar terakhir drum.
             // Lengkungan abu-abu di atasnya ikut naik sampai hilang, judul naik ke posisinya, status muncul, dan
             // area kuning (lengkungan, Say Hello, link) naik sebagai satu blok. Area kuning sengaja mulai belakangan:
             // sebelum itu posisinya masih di bawah layar, jadi gerakannya tidak akan terlihat.
@@ -442,6 +469,7 @@ export default function ScrollAnimations() {
                     item.removeAttribute("data-shown");
                     item.querySelector<HTMLElement>("[data-exp-line]")?.style.removeProperty("transform");
                 });
+                undoScreenH();
                 delete html.dataset.anim;
             };
         });

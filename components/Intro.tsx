@@ -50,7 +50,7 @@ export default function Intro() {
         >
             <div data-intro-curtain className="absolute inset-0 bg-black">
                 {/* Tepi bawah tirai yang melengkung (Ellipse 3 di Figma) */}
-                <div className="absolute top-full left-1/2 h-[60svh] w-[174vw] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-black" />
+                <div className="absolute top-full left-1/2 h-[calc(var(--screen-h)*0.6)] w-[174vw] -translate-x-1/2 -translate-y-1/2 rounded-[50%] bg-black" />
                 <p className="absolute right-6 bottom-6 font-paragraph text-sm text-white/50">Click or press any key to skip</p>
             </div>
             <img

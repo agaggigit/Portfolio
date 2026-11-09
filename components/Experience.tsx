@@ -58,7 +58,7 @@ function Card({ item }: { item: Item }) {
 
 export default function Experience() {
     return (
-        <section id="experience" data-exp data-drum-face aria-labelledby="experience-title" className="relative overflow-hidden bg-surface py-16 md:h-[calc(1024*var(--u))] md:min-h-svh md:py-0">
+        <section id="experience" data-exp data-drum-face aria-labelledby="experience-title" className="relative overflow-hidden bg-surface py-16 md:h-[calc(1024*var(--u))] md:min-h-(--screen-h) md:py-0">
             <h2
                 id="experience-title"
                 data-exp-title
