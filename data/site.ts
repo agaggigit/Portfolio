@@ -50,7 +50,7 @@ export type Project = {
   href?: string;
 };
 
-// Tiap project mengarah ke repo GitHub-nya (GradaTim belum punya repo publik, jadi ke profil). Demo menyusul.
+// Tiap project mengarah ke repo GitHub-nya. Demo menyusul.
 const githubProfile = "https://github.com/agaggigit";
 
 export const projects: Project[] = [
@@ -60,6 +60,7 @@ export const projects: Project[] = [
     description:
       "My friends and I kept forgetting who had paid for what, so I built Talangin to keep track of it for us. It’s a web app you can install on your phone, and we still use it now and then to split shared expenses and settle debts, even when there’s no internet connection.",
     tech: ["React", "Express", "PostgreSQL", "PWA"],
+    image: "/projects/talangin.webp",
     href: `${githubProfile}/Talangin`,
   },
   {
@@ -68,6 +69,7 @@ export const projects: Project[] = [
     description:
       "For this project I went to a gas station four times to observe how motorcycles queued for fuel. I then used that data to build a simulation in SimPy and presented the waiting times and service load in an interactive dashboard.",
     tech: ["Python", "SimPy", "Streamlit"],
+    image: "/projects/pertamax-simulation.webp",
     href: `${githubProfile}/projek-TPS`,
   },
   {
@@ -76,6 +78,7 @@ export const projects: Project[] = [
     description:
       "EcoRoute is a desktop app that compares the carbon footprint of different routes and modes of transport, so people can easily see which trip is the greener one. I’m working on the interface together with two teammates, and the app is still in development.",
     tech: ["C#", ".NET"],
+    image: "/projects/ecoroute.webp",
     href: `${githubProfile}/EcoRoute`,
   },
   {
@@ -84,7 +87,8 @@ export const projects: Project[] = [
     description:
       "GradaTim is an AI assistant for goals that feel too big to start on. You tell it what you want to achieve, and it breaks that goal down into smaller tasks and arranges them into a daily schedule.",
     tech: ["Python", "Gemini API"],
-    href: githubProfile,
+    image: "/projects/gradatim.webp",
+    href: "https://github.com/AkioAfif/GradaTim",
   },
 ];
 
